@@ -13,6 +13,8 @@ Add it to your gemfile in your Rails 3.2+ project
 
     gem 'cached_counts'
 
+Cached counts uses your Rails.cache setup, for a good memcached store, [look at dalli](https://github.com/mperham/dalli)
+
 ## Usage
 
 You can use the size, length or count method on any active record model.
@@ -42,7 +44,7 @@ You can also use the non cached count on the class or scopes.
   User.where(:admin => true).count_without_caching # => Runs a database lookup
 ```
 
-Example
+## Example
 
 ```
 1.9.3p194 :020 > User.count
