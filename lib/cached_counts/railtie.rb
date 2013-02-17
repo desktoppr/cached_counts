@@ -3,6 +3,7 @@ module CachedCounts
     initializer 'cached_counts' do |app|
       ActiveSupport.on_load(:active_record) do
         ::ActiveRecord::Relation.send :include, CachedCounts::ActiveRecordRelationMethods
+        ::ActiveRecord::Base.send :extend, CachedCounts::ActiveRecordBaseMethods
       end
 
       app.config.after_initialize { app.config.active_record.observers += [ :cached_count_observer ] }

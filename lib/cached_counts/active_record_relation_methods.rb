@@ -21,5 +21,9 @@ module CachedCounts
     def size_with_caching(*args)
       CachedCounts::Cache.new(self).count
     end
+
+    def clear_count_cache
+      CachedCounts::Cache.new(self).clear
+    end
   end
 end
