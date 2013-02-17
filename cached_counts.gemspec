@@ -22,4 +22,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "activesupport"
   gem.add_development_dependency "activerecord"
+
+  gem.add_dependency "rails", ">= 3.2"
 end
