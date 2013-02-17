@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = CachedCounts::VERSION
   gem.authors       = ["Mario Visic"]
   gem.email         = ["mario@mariovisic.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Speed up ActiveRecord counting with caching}
+  gem.summary       = %q{Uses the Rails cache to store cached counts for active record models as well as models with scopes}
+  gem.homepage      = "https://github.com/desktoppr/cached_counts"
   gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)
