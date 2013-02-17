@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'cached_counts/cache'
 
 describe CachedCounts::Cache do
   let(:scope) { Scope.new('Cat') }
