@@ -44,6 +44,16 @@ You can also use the non cached count on the class or scopes.
   User.where(:admin => true).count_without_caching # => Runs a database lookup
 ```
 
+## Clearing the cache
+
+The counts cache is cleared for a model after save and after destroy.
+If you are updating the database manually without these methods then you will need to clear the cache yourself.
+
+```ruby
+User.update_all(:name => 'joe')
+User.clear_count_cache
+```
+
 ## Example
 
 ```
