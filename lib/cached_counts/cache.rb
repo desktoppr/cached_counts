@@ -31,7 +31,7 @@ module CachedCounts
     end
 
     def current_key
-      "count:#{@scope.model_name.underscore}::cached_count::#{@scope.to_sql}"
+      "count:#{@scope.model_name.underscore}::cached_count::#{@scope.to_sql.hash}"
     end
   end
 end
