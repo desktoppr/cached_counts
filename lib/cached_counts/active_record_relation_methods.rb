@@ -4,15 +4,21 @@ module CachedCounts
   module ActiveRecordRelationMethods
     extend ActiveSupport::Concern
 
-    def count(*args)
+    included do
+      alias_method_chain :count,  :caching
+      alias_method_chain :length, :caching
+      alias_method_chain :size,   :caching
+    end
+
+    def count_with_caching(*args)
       CachedCounts::Cache.new(self).count
     end
 
-    def length(*args)
+    def length_with_caching(*args)
       CachedCounts::Cache.new(self).count
     end
 
-    def size(*args)
+    def size_with_caching(*args)
       CachedCounts::Cache.new(self).count
     end
   end

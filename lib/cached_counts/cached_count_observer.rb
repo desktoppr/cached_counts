@@ -11,11 +11,11 @@ module CachedCounts
     end
 
     def after_save(record)
-      CachedCounts::Cache.new(self.class).clear
+      CachedCounts::Cache.new(record.class).clear
     end
 
     def after_destroy(record)
-      CachedCounts::Cache.new(self.class).clear
+      CachedCounts::Cache.new(record.class).clear
     end
   end
 end
