@@ -5,14 +5,7 @@ module CachedCounts
     end
 
     def count(*args)
-      if all_keys.include?(current_key)
-        Rails.cache.fetch(current_key)
-      else
-        @scope.count_without_caching(*args).tap do |count|
-          Rails.cache.write(current_key, count)
-          Rails.cache.write(list_key, all_keys + [current_key])
-        end
-      end
+      cached_count || uncached_count(*args)
     end
 
     # Clear out any count caches which have SQL that includes the scopes table
@@ -25,6 +18,17 @@ module CachedCounts
     end
 
     private
+
+    def cached_count
+      Rails.cache.fetch(current_key)
+    end
+
+    def uncached_count(*args)
+      @scope.count_without_caching(*args).tap do |count|
+        Rails.cache.write(current_key, count)
+        Rails.cache.write(list_key, all_keys + [current_key])
+      end
+    end
 
     def all_keys
       Rails.cache.fetch(list_key) || []

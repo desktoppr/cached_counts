@@ -20,6 +20,18 @@ describe CachedCounts::Cache do
       end
     end
 
+    context 'when the cached key is blank' do
+      before do
+        scope.stub(:count_without_caching => 5)
+        cache.count
+        Rails.cache.write(cache.send(:current_key), nil)
+      end
+
+      it 'returns the real count' do
+        cache.count.should == 5
+      end
+    end
+
     context 'when there is already a cached count' do
       before do
         scope.should_receive(:count_without_caching).once.and_return(8)
