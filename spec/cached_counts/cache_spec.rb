@@ -35,7 +35,7 @@ describe CachedCounts::Cache do
       let(:new_scope)  { Scope.new('Cat') }
       let(:same_scope) { Scope.new('Cat') }
 
-      before { new_scope.stub(:to_sql => 'new-sql-here') }
+      before { new_scope.stub(:to_sql => 'select * from cats where name = "bob"') }
 
       it 'uses a different cache for different to_sql values' do
         scope.stub(:count_without_caching => 5)
