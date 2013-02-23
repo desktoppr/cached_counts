@@ -19,7 +19,9 @@ module CachedCounts
     private
 
     def cached_count
-      Rails.cache.fetch(current_key)
+      if all_keys.include?(current_key)
+        Rails.cache.fetch(current_key)
+      end
     end
 
     def uncached_count(*args)
