@@ -10,11 +10,10 @@ module CachedCounts
 
     # Clear out any count caches which have SQL that includes the scopes table
     def clear
-      keys = all_keys
-      invalid_keys = keys.select { |key| key.include?(@scope.table_name.downcase.singularize) }
+      invalid_keys = all_keys.select { |key| key.include?(@scope.table_name.downcase.singularize) }
       invalid_keys.each { |key| Rails.cache.delete(key) }
 
-      Rails.cache.write(list_key, keys - invalid_keys)
+      Rails.cache.write(list_key, all_keys - invalid_keys)
     end
 
     private
