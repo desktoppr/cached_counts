@@ -18,6 +18,16 @@ describe CachedCounts::Cache do
         scope.should_receive(:count_without_caching).with('first').and_return(5)
         cache.count('first').should == 5
       end
+
+      it 'returns the correct count if different options are given' do
+        scope.should_receive(:count_without_caching).with('first').and_return(5)
+        scope.should_receive(:count_without_caching).with('second').and_return(10)
+        scope.should_receive(:count_without_caching).with('second', { :hi => 'there' }).and_return(12)
+
+        cache.count('first').should == 5
+        cache.count('second').should == 10
+        cache.count('second', { :hi => 'there' }).should == 12
+      end
     end
 
     context 'when the cached key is blank' do

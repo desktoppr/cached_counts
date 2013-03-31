@@ -2,10 +2,12 @@ module CachedCounts
   class Cache
     def initialize(scope)
       @scope = scope
+      @args  = []
     end
 
     def count(*args)
-      cached_count || uncached_count(*args)
+      @args = args
+      cached_count || uncached_count
     end
 
     # Clear out any count caches which have SQL that includes the scopes table
@@ -24,8 +26,8 @@ module CachedCounts
       end
     end
 
-    def uncached_count(*args)
-      @scope.count_without_caching(*args).tap do |count|
+    def uncached_count
+      @scope.count_without_caching(*@args).tap do |count|
         Rails.cache.write(current_key, count)
         Rails.cache.write(list_key, all_keys + [current_key])
       end
@@ -40,7 +42,7 @@ module CachedCounts
     end
 
     def current_key
-      "cached_counts::#{@scope.to_sql.downcase}"
+      "cached_counts::#{@scope.to_sql.downcase}::#{@args}"
     end
   end
 end
