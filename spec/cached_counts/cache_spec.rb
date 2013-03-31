@@ -19,7 +19,7 @@ describe CachedCounts::Cache do
         cache.count('first').should == 5
       end
 
-      it 'returns the correct count if different options are given' do
+      it 'uses a different cache for different option values' do
         scope.should_receive(:count_without_caching).with('first').and_return(5)
         scope.should_receive(:count_without_caching).with('second').and_return(10)
         scope.should_receive(:count_without_caching).with('second', { :hi => 'there' }).and_return(12)
@@ -34,7 +34,7 @@ describe CachedCounts::Cache do
       before do
         scope.stub(:count_without_caching => 5)
         cache.count
-        Rails.cache.write(cache.send(:current_key), nil)
+        Rails.cache.delete(cache.send(:current_key))
       end
 
       it 'returns the real count' do
