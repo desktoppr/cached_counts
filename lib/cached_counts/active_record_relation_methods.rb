@@ -5,9 +5,16 @@ module CachedCounts
     extend ActiveSupport::Concern
 
     included do
-      alias_method_chain :count,  :caching
-      alias_method_chain :length, :caching
-      alias_method_chain :size,   :caching
+      if defined?(Rails) && Rails.configuration.respond_to?(:cache_counts_by_default) && Rails.configuration.cache_counts_by_default
+        alias_method_chain :count,  :caching
+        alias_method_chain :length, :caching
+        alias_method_chain :size,   :caching
+      else
+        # Existing code calls count_without_caching, so just make it a no-op
+        alias_method :count_without_caching, :count
+        alias_method :length_without_caching, :length
+        alias_method :size_without_caching, :size
+      end
     end
 
     def count_with_caching(*args)

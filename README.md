@@ -44,6 +44,25 @@ You can also use the non cached count on the class or scopes.
   User.where(:admin => true).count_without_caching # => Runs a database lookup
 ```
 
+## Usage with Rails
+
+If you're using rails you can optionally disable the ovveriding of the `count` `size` and `lenght` methods by setting the `count_with_caching` configuration value.
+You can do so in your application config like so:
+
+```ruby
+# config/application.rb
+
+module MyApp
+  class Application < Rails::Application
+    #...
+    config.cache_counts_by_default = false
+    #...
+  end
+end
+```
+
+Disabling the cache by default allows you to use `MyModel.count_with_caching` to return the cached count value.
+
 ## Clearing the cache
 
 The counts cache is cleared for a model after save and after destroy.
